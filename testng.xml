@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SauceDemo Suite" parallel="classes" thread-count="3">
+
+    <test name="All E2E Tests">
+        <classes>
+            <class name="com.saucedemo.testcases.LoginTest"/>
+            <class name="com.saucedemo.testcases.ProductsPageTest"/>
+            <class name="com.saucedemo.testcases.ShoppingCartTest"/>
+            <class name="com.saucedemo.testcases.EndToEndTest"/>
+        </classes>
+    </test>
+
+</suite>

@@ -28,7 +28,7 @@ public class EndToEndTest extends BaseTest {
         productsPage.addProductToCartByName("Sauce Labs Backpack");
         cartPage = productsPage.goToCart();
         C1P = cartPage.goToCheckout();
-        C2P = C1P.fillShippingDetails("Sathvik", "Karanth", "560056");
+        C2P = C1P.fillShippingDetails("Test", "Test", "123456");
         CCP = C2P.clickFinish();
         String ActualCT = CCP.getConfirmationMessage();
         Assert.assertEquals(ActualCT, expectedCT, "Text does not match");

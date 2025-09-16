@@ -5,16 +5,23 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BaseTest {
 
-    public WebDriver driver;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     public ConfigReader configReader;
+
+    public static WebDriver getDriver(){
+        return driver.get();
+    }
 
     @BeforeMethod
     public void setup(){
@@ -33,15 +40,21 @@ public class BaseTest {
         options.addArguments("--user-data-dir=" + userDataDir);
 
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get(configReader.getProperty("baseUrl"));
+        try {
+            // Use RemoteWebDriver, pointing to the Grid URL and passing the options
+            driver.set(new RemoteWebDriver(new URL("http://localhost:4444"), options));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        getDriver().manage().window().maximize();
+        getDriver().get(configReader.getProperty("baseUrl"));
     }
 
     @AfterMethod
     public void TearDown(){
-        if(driver!=null){
-            //driver.quit();
+        if(getDriver()!=null){
+            getDriver().quit();
+            driver.remove();
         }
     }
 }
