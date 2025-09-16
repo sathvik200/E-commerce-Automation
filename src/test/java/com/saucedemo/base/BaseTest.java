@@ -40,7 +40,7 @@ public class BaseTest {
         try {
             // Connect to Selenium Grid Hub
             driver.set(new RemoteWebDriver(
-                    new URL("http://localhost:4444/wd/hub"), // ✅ correct endpoint
+                    new URL("http://localhost:4444/wd/hub"),
                     options
             ));
         } catch (MalformedURLException e) {
